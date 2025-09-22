@@ -18,6 +18,9 @@ function App() {
           setUserdata(null);
           localStorage.clear()
           break;
+        case "LOGIN":
+          setUserdata(action.payload);
+          break;
         default:
           break;
       }

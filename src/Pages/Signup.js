@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { Link,useNavigate } from "react-router-dom";
 import { talrop } from "../Components/AxiosConfig";
+import { UserContext } from "../App";
 
 export default function Signup() {
     const [firstname, setFirstName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [message, setMessage] = useState()
+    const {userdata, updateUserData} = useContext(UserContext);
+    
     let navigate = useNavigate();
 
     let handlesubmit = (e) =>{
@@ -18,9 +21,10 @@ export default function Signup() {
                 console.log(response)
                 setMessage(response.data.message)
                 let data = response.data.data;
-                let status_code = response.data.statusCode;
+                let status_code = response.data.StatusCode;
                 if(status_code === 6000){
                     localStorage.setItem("user_data", JSON.stringify(data));
+                    updateUserData({type: "LOGIN", payload: data})
                     navigate('/')
                 }
             })

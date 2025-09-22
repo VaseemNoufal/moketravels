@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { talrop } from "../Components/AxiosConfig";
+import { UserContext } from "../App";
 
 export default function Login() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [message, setMessage] = useState("")
+    const {userdata, updateUserData} = useContext(UserContext);
+    
     let navigate = useNavigate();
 
     let handlesubmit = (e) =>{
@@ -19,6 +22,7 @@ export default function Login() {
                 localStorage.setItem("user_data", JSON.stringify(data))
                 console.log(data)
                 navigate('/')
+                updateUserData({type: "LOGIN", payload: data})
             })
             .catch(function(error){
                 if(error.response.status == "401"){
