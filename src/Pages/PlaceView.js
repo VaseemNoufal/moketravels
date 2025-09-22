@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { talrop } from "../Components/AxiosConfig";
 import Navbar from "../Components/Navbar";
 import '../Css/homepage.css'
+import { UserContext } from "../App";
 
 export default function ViewSingle(){
     const {id} = useParams();
     const [singleview, setSingleview] = useState([]);
+    const {userdata} = useContext(UserContext)
 
     useEffect(() =>{
         talrop
-            .get(`/places/view/${id}`)
+            .get(`/places/protected/${id}`, {
+                headers:{
+                    Authorization: `Bearer ${userdata?.access}`
+                }
+            })
             .then(function(response){
                 setSingleview(response.data.data)
             })
