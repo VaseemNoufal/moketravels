@@ -7,6 +7,7 @@ import ViewSingle from './Pages/PlaceView';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import React,{useState,useEffect, act} from 'react';
+import PrivateRoute from './Components/PrivateRoute';
 
 export const UserContext = React.createContext()
 
@@ -34,8 +35,8 @@ function App() {
     <UserContext.Provider value={{userdata, updateUserData}}>
       <Router>
         <Routes>
-          <Route path='/' element={<HomePage />}/>
-          <Route path='/places/:id' element={<ViewSingle />}/>
+          <Route path='/' element={<PrivateRoute element={<HomePage />}/>}/>
+          <Route path='/places/:id' element={<PrivateRoute element={<ViewSingle />}/>}/>
           <Route path='/auth/login' element={<Login />}/>
           <Route path='/auth/create' element={<Signup />}/>
           <Route path='*' element={<Undefined />}/>

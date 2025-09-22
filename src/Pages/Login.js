@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { talrop } from "../Components/AxiosConfig";
 import { UserContext } from "../App";
@@ -12,6 +12,9 @@ export default function Login() {
     const {userdata, updateUserData} = useContext(UserContext);
     
     let navigate = useNavigate();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const next = searchParams.get("next") || "/";
 
     let handlesubmit = (e) =>{
         e.preventDefault();
@@ -21,7 +24,7 @@ export default function Login() {
                 let data = response.data;
                 localStorage.setItem("user_data", JSON.stringify(data))
                 console.log(data)
-                navigate('/')
+                navigate(next, { replace: true });
                 updateUserData({type: "LOGIN", payload: data})
             })
             .catch(function(error){
