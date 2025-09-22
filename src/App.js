@@ -6,17 +6,27 @@ import Undefined from './Pages/Undefined';
 import ViewSingle from './Pages/PlaceView';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect, act} from 'react';
 
 export const UserContext = React.createContext()
 
 function App() {
   const [userdata, setUserdata] = useState({});
+  const updateUserData = (action) =>{
+      switch(action.type){
+        case "LOGOUT":
+          setUserdata(null);
+          localStorage.clear()
+          break;
+        default:
+          break;
+      }
+  }
   useEffect(() =>{
       setUserdata(JSON.parse(localStorage.getItem("user_data")))
   },[])
   return (
-    <UserContext.Provider value={userdata}>
+    <UserContext.Provider value={{userdata, updateUserData}}>
       <Router>
         <Routes>
           <Route path='/' element={<HomePage />}/>

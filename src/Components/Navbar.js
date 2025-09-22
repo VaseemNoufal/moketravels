@@ -4,13 +4,16 @@ import { UserContext } from "../App";
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar(){
-    const userData = useContext(UserContext);
+    const {userdata, updateUserData} = useContext(UserContext);
+    const handleLogout = () =>{
+        updateUserData({type: "LOGOUT"})
+    }
     const navigation = useNavigate()
     return(
         <div className="topper">
             <img src={require('../Images/logo.svg').default}/>
             <div className="right">
-                {userData ? (<button style={{cursor: "pointer"}} className="button">Logout</button>):(<button style={{cursor:"pointer"}} onClick={() =>{
+                {userdata ? (<button style={{cursor: "pointer"}} onClick={() => handleLogout()} className="button">Logout</button>):(<button style={{cursor:"pointer"}} onClick={() =>{
                     navigation('/auth/login')
                 }} className="button">
                     Login
